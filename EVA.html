@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- index page css file -->
+    <link rel="stylesheet" type="text/css" href="EVA.css">
+
+    <title>EVA</title>
+  </head>
+<body>
+	<div class="container">
+		<div id="title_line">
+			<h1 class="heading">Earning Value Analysis</h1>
+		</div>
+		Actual cost of work performed: <input type="number"  id="AC"  class="form-control" >
+		Budgeted cost of work performed: <input type="number" id="BC"  class="form-control"  >
+		Budgeted cost of work scheduled: <input type="number" id="BS"  class="form-control" >
+		Budgeted cost of complete work: <input type="number"  id="BW"  class="form-control" placeholder="Optional">
+		<div></div>
+		<div class="d-flex justify-content-center">
+			<button type="button" class="btn btn-success space" onclick="myFunction()">Calculate EVA</button>
+		</div>
+	<table class="table table-bordered">
+    	<thead>
+    	<tr>
+        	<th>Validity of inputs</th>
+        	<th id="Validity">Not Entered</th>
+    	</tr>
+    	</thead>
+    	<tbody>
+    	<tr>
+    		<td>Schedule Status(variance)</td>
+    		<td id="SSV"></td>
+      	</tr>
+      	<tr>
+    		<td>Budget Status(variance)</td>
+    		<td id="BSV"></td>
+      	</tr>
+      	<tr>
+    		<td>Schedule Status(Peformance Index)</td>
+    		<td id="SSP"></td>
+      	</tr>
+      	<tr>
+    		<td>Budget Status(Peformance Index)</td>
+    		<td id="BSP"></td>
+      	</tr>
+    	<tr>
+    		<td>CPI</td>
+    		<td id="CPI"></td>
+      	</tr>
+      	<tr>
+    		<td>CV</td>
+    		<td id="CV"></td>
+      	</tr>
+      	<tr>
+    		<td>SPI</td>
+    		<td id="SPI"></td>
+      	</tr>
+      	<tr>
+    		<td>SV</td>
+    		<td id="SV"></td>
+      	</tr>
+    	</tbody>
+    </table>
+	<script>
+	function myFunction() {
+	  var AC = document.getElementById("AC").value;
+	  var BC = document.getElementById("BC").value;
+	  var BS = document.getElementById("BS").value;
+	  if(AC==""||BC==""||BS=="")
+	  {
+	  	document.getElementById("Validity").innerHTML = "Please enter all details";
+	  	document.getElementById("CPI").innerHTML = "";
+		document.getElementById("CV").innerHTML = "";
+	    document.getElementById("SPI").innerHTML = "";
+	    document.getElementById("SV").innerHTML = "";
+	    document.getElementById("SSV").innerHTML ="";
+	    document.getElementById("BSV").innerHTML ="";
+	    document.getElementById("SSP").innerHTML ="";
+	    document.getElementById("BSP").innerHTML ="";
+	  }
+	  else
+	  {
+	  	document.getElementById("Validity").innerHTML = "Valid";
+	  	document.getElementById("CPI").innerHTML = BC/AC;
+		document.getElementById("CV").innerHTML = BC-AC;
+	    document.getElementById("SPI").innerHTML = BC/BS;
+	    document.getElementById("SV").innerHTML = BC-BS;
+	    var SV=BC-BS;
+	    if(SV<0)
+	    {
+	    	document.getElementById("SSV").innerHTML ="Work is Behind Schedule";
+	    }
+	    else if(SV>0)
+	    {
+	    	document.getElementById("SSV").innerHTML ="Work is Ahead of Schedule";
+	    }
+	    else
+	    {
+	    	document.getElementById("SSV").innerHTML ="Work is on time";
+	    }
+	    var CV=BC-AC;
+	    if(CV<0.0)
+	    {
+	    	document.getElementById("BSV").innerHTML ="OverBudget";
+	    }
+	    else if(CV>0.0)
+	    {
+	    	document.getElementById("BSV").innerHTML ="Underbudget";
+	    }
+	    else
+	    {
+	    	document.getElementById("BSV").innerHTML ="Balanced Budget";
+	    }
+	    var CPI=BC/AC;
+	    if(AC==0)
+	    {
+	    	document.getElementById("Validity").innerHTML = "Work is not started";
+	    	document.getElementById("CPI").innerHTML = "Cannot be calculated";
+	    }
+	    else
+	    {
+	    	if(CPI<1.0)
+	    	{
+	    		document.getElementById("BSP").innerHTML ="OverBudget";
+	    	}
+	    	else if(CPI>1.0)
+	    	{
+	    		document.getElementById("BSP").innerHTML ="Underbudget";		
+	    	}
+	    	else
+	    	{
+	    		document.getElementById("BSP").innerHTML ="Balanced Budget";	
+	    	}
+	    }
+	    var SPI=BC/BS;
+	    if(BS==0)
+	    {
+	    	document.getElementById("Validity").innerHTML = "Work is not scheduled";
+	    	document.getElementById("SPI").innerHTML = "Cannot be calculated";
+	    }
+	    else
+	    {
+	    	if(SPI<0.0)
+	    	{
+	    		document.getElementById("SSP").innerHTML ="Work is Behind Schedule";
+	    	}
+	    	else if(SPI>0.0)
+	    	{
+	    		document.getElementById("SSP").innerHTML ="Work is Ahead of Schedule";
+	    	}
+	    	else
+	    	{
+	    		document.getElementById("SSP").innerHTML ="Work is on time";
+	    	}
+	    }
+	  }
+	}
+	</script>
+</body>
+</html>
